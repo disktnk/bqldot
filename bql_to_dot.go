@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/codegangsta/cli"
+	"github.com/urfave/cli"
 	"gopkg.in/sensorbee/sensorbee.v0/bql/parser"
 	"io/ioutil"
 	"os"
