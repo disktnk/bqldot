@@ -41,10 +41,10 @@ func Run(c *cli.Context) error {
 	bqlFilePath := c.Args()[0]
 	bqlFileName := filepath.Base(bqlFilePath)
 	topologyName := bqlFileName[:len(bqlFileName)-len(filepath.Ext(bqlFileName))]
+	outputName := topologyName + ".dot"
 	if n := c.String("topology"); n != "" {
 		topologyName = n
 	}
-	outputName := topologyName + ".dot"
 	if o := c.String("output"); o != "" {
 		outputName = o
 	}
