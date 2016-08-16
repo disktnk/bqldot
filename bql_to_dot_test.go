@@ -35,6 +35,12 @@ func TestConvertToDotLine(t *testing.T) {
 			tcase{"create stream with union all",
 				`CREATE STREAM b AS SELECT RSTREAM * FROM s [RANGE 10 TUPLES] UNION ALL SELECT RSTREAM * FROM s2 [RANGE 10 TUPLES];`,
 				"  b [shape = ellipse];\n  s -> b [label = \"RANGE 10 TUPLES\"];\n  s2 -> b [label = \"RANGE 10 TUPLES\"];\n"},
+			tcase{"create stream from UDSF",
+				`CREATE STREAM b AS SELECT RSTREAM * FROM udsf("s1", "s2") [RANGE 1 TUPLES];`,
+				`  b [shape = ellipse];
+  udsf_1 [shape = ellipse, label = "udsf"];
+  udsf_1 -> b [label = "RANGE 1 TUPLES"];
+`},
 			tcase{"create sink", `CREATE SOURCE s TYPE si;`,
 				"  s [shape = box, label = \"s\\nTYPE si\"];\n"},
 			tcase{"insert into sink", `INSERT INTO s FROM b;`,
