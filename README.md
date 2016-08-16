@@ -27,8 +27,6 @@ $ bqldot path/to/bqlfile/foo.bql
 
 "foo.dot" will be made.
 
-* UDSF is not supported, not output as edge.
-
 ### Example
 
 "sample.bql" is put on "sample" directory
@@ -41,6 +39,12 @@ $ dot -Tgif sample.dot -o sample_graph.gif
 Visualized as:
 
 ![sample_graph.gif](sample/sample_graph.gif)
+
+### TODO
+
+* A UDSF node is not enough to represent the stream. To be completed, use built sensorbee to read UDSF implementation. (And `bqldot` should be subcommand of `sensorbee`.)
+* Write keys on each stream nodes.
+* A UDS edge. (It is difficult because `topology_builder` does not link UDSs and other nodes, UDSs are read after streaming)
 
 ## Reference
 

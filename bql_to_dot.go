@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sync/atomic"
 )
 
 func main() {
@@ -130,7 +131,11 @@ func convertRelationEdge(out string, rels []parser.AliasedStreamWindowAST) strin
 			dot += fmt.Sprintf("  %s -> %s [label = \"RANGE %s %s\"];\n",
 				rel.Name, out, rel.IntervalAST, rel.IntervalAST.Unit)
 		case parser.UDSFStream:
-			fmt.Println("not support UDSF, function name: " + rel.Name)
+			tempName := udsfNodeNameNextTempName()
+			dot += fmt.Sprintf("  %s [shape = ellipse, label = \"%s\"];\n",
+				tempName, rel.Name)
+			dot += fmt.Sprintf("  %s -> %s [label = \"RANGE %s %s\"];\n",
+				tempName, out, rel.IntervalAST, rel.IntervalAST.Unit)
 		}
 	}
 	return dot
@@ -143,4 +148,11 @@ func convertStateNode(name, sttype, tag string) string {
 	}
 	return fmt.Sprintf("  %s [shape = ellipse, label = \"%s\\nTYPE %s\"];\n",
 		name, name, sttype)
+}
+
+var udsfNodeTempID int64
+
+func udsfNodeNameNextTempName() string {
+	id := atomic.AddInt64(&udsfNodeTempID, 1)
+	return fmt.Sprintf("udsf_%d", id)
 }
